@@ -1,18 +1,18 @@
 package com.web.blog.entity;
 
-public class thesis {
-    private String id;
+public class Thesis {
+    private int id;
     private String designation;
-    private double score;
-    private String teacher_id;
-    private String student_id;
+    private float socre;
+    private int teacher_id;
+    private int student_id;
     private String position;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -24,27 +24,27 @@ public class thesis {
         this.designation = designation;
     }
 
-    public double getScore() {
-        return score;
+    public float getSocre() {
+        return socre;
     }
 
-    public void setScore(double score) {
-        this.score = score;
+    public void setSocre(float socre) {
+        this.socre = socre;
     }
 
-    public String getTeacher_id() {
+    public int getTeacher_id() {
         return teacher_id;
     }
 
-    public void setTeacher_id(String teacher_id) {
+    public void setTeacher_id(int teacher_id) {
         this.teacher_id = teacher_id;
     }
 
-    public String getStudent_id() {
+    public int getStudent_id() {
         return student_id;
     }
 
-    public void setStudent_id(String student_id) {
+    public void setStudent_id(int student_id) {
         this.student_id = student_id;
     }
 
@@ -54,17 +54,5 @@ public class thesis {
 
     public void setPosition(String position) {
         this.position = position;
-    }
-
-    @Override
-    public String toString() {
-        return "thesis{" +
-                "id='" + id + '\'' +
-                ", designation='" + designation + '\'' +
-                ", score='" + score + '\'' +
-                ", teacher_id='" + teacher_id + '\'' +
-                ", student_id='" + student_id + '\'' +
-                ", position='" + position + '\'' +
-                '}';
     }
 }
