@@ -28,6 +28,8 @@ public class VisitorController {
     @RequestMapping(value = "/register")
     @ResponseBody
     public String register(HttpSession session, UserInfo userInfo) {
+//        System.out.println(visitorService.register(session, userInfo).toString()+"66");
+        System.out.println("66");
         return visitorService.register(session, userInfo).toString();
     }
 }

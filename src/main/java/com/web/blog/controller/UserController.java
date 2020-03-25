@@ -32,6 +32,7 @@ public class UserController {
     @RequestMapping(value = "/login")
     @ResponseBody
     public String login(HttpSession session, String account, String password) {
+        System.out.println("s");
         return userService.login(session, account, password).toString();
     }
 

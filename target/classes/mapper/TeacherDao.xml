@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.blog.dao.TeacherDao">
+
+    <select id="findall" resultType="com.web.blog.entity.Teacher">
+        select * from teacher where concat(name,cellphone,id) like "%"#{key}"%" and t_state=1
+    </select>
+    <select id="findbyid" resultType="com.web.blog.entity.Teacher">
+        select * from teacher where id=#{id} and t_state=1
+    </select>
+    <update id="updatepwd" >
+        update teacher set password=#{pwd} where id=#{id}
+    </update>
+    <update id="delete" >
+        update teacher set t_state=0 where id=#{id}
+    </update>
+    <insert id="createtea">
+        insert into teacher (id,name,password,cellphone) values (#{id},#{name},#{password},#{cellphone});
+    </insert>
+</mapper>
+

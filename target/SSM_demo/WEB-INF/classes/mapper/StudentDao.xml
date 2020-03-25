@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.blog.dao.StudentDao">
+
+    <select id="findall" resultType="com.web.blog.entity.Student">
+        select * from student where concat(name,major,sclass,id) like "%"#{key}"%" and s_state=1
+    </select>
+    <select id="findbyid" resultType="com.web.blog.entity.Student">
+        select * from student where id=#{id}
+    </select>
+    <update id="updatepwd" >
+        update student set password=#{pwd} where id=#{id}
+    </update>
+    <update id="delete" >
+        update student set s_state=0 where id=#{id}
+    </update>
+    <update id="updatereply" >
+        update student set state=
+        <choose>
+            <when test="flag==1">
+                1
+            </when>
+            <otherwise>
+                -1
+            </otherwise>
+        </choose>
+        where id=#{id}
+    </update>
+    <insert id="createstu">
+        insert into student (id,name,password,major,sclass,cellphone,teacher_id) values (#{id},#{name},#{password},#{major},#{sclass},#{cellphone},#{teacher_id})
+    </insert>
+    <update id="total" >
+        update student set total_result=#{total_result} where id=#{id}
+    </update>
+</mapper>
+
