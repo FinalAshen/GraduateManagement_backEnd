@@ -1,20 +1,20 @@
 package com.web.blog.entity;
 
 public class Inform {
-    private String id;
+    private int id;
     private String title;
     private String content;
     private String creator;
     private String begin_ts;
     private String end_ts;
-    private String t_group;
-    private String s_group;
+    private int t_group;
+    private int s_group;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -58,21 +58,6 @@ public class Inform {
         this.end_ts = end_ts;
     }
 
-    public String getT_group() {
-        return t_group;
-    }
-
-    public void setT_group(String t_group) {
-        this.t_group = t_group;
-    }
-
-    public String getS_group() {
-        return s_group;
-    }
-
-    public void setS_group(String s_group) {
-        this.s_group = s_group;
-    }
 
     @Override
     public String toString() {
@@ -86,5 +71,21 @@ public class Inform {
                 ", t_group='" + t_group + '\'' +
                 ", s_group='" + s_group + '\'' +
                 '}';
+    }
+
+    public int getT_group() {
+        return t_group;
+    }
+
+    public void setT_group(int t_group) {
+        this.t_group = t_group;
+    }
+
+    public int getS_group() {
+        return s_group;
+    }
+
+    public void setS_group(int s_group) {
+        this.s_group = s_group;
     }
 }

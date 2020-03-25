@@ -4,7 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.web.blog.dao.TeacherDao">
-
     <select id="findall" resultType="com.web.blog.entity.Teacher">
         select * from teacher where concat(name,cellphone,id) like "%"#{key}"%" and t_state=1
     </select>
@@ -20,5 +19,20 @@
     <insert id="createtea">
         insert into teacher (id,name,password,cellphone) values (#{id},#{name},#{password},#{cellphone});
     </insert>
+    <select id="getTeacher" resultType="com.web.blog.entity.Teacher">
+      select distinct teacher.id,teacher.name from teacher,skill_map
+        where concat(skill_map.name,teacher.name) like "%"#{skill}"%" and teacher.id=skill_map.teacherid
+    </select>
+    <select id="getSkill" resultType="com.web.blog.entity.Skill_map">
+        select * from skill_map
+        where teacherid in
+        <foreach collection="list" item="teachers" open="(" separator="," close=")">
+            #{teachers.id}
+        </foreach>
+    </select>
+    <select id="getMyTeacher" resultType="com.web.blog.entity.Teacher">
+      select distinct teacher.id,teacher.name,teacher.cellphone
+      from teacher,student
+      where teacher.id=student.teacher_id and student.id=#{student_id}
+    </select>
 </mapper>
-

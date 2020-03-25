@@ -1,6 +1,7 @@
 package com.web.blog.entity;
 
 public class Task {
+
     private String id;
     private String designation;
     private String direction;
@@ -36,6 +37,7 @@ public class Task {
         this.direction = direction;
     }
 
+
     public String getTeacher_id() {
         return teacher_id;
     }
@@ -49,6 +51,7 @@ public class Task {
     }
 
     public void setStudent_id(String student_id) {
+
         this.student_id = student_id;
     }
 

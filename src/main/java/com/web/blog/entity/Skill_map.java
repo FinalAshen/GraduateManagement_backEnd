@@ -3,10 +3,14 @@ package com.web.blog.entity;
 public class Skill_map {
     private int  id;
     private String name;
-    private String teacherid;
+    private int teacherid;
 
     public int getId() {
         return id;
+    }
+
+    public int getTeacherid() {
+        return teacherid;
     }
 
     public void setId(int id) {
@@ -21,11 +25,7 @@ public class Skill_map {
         this.name = name;
     }
 
-    public String getTeacherid() {
-        return teacherid;
-    }
-
-    public void setTeacherid(String teacherid) {
+    public void setTeacherid(int teacherid) {
         this.teacherid = teacherid;
     }
 

@@ -2,9 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.web.blog.dao.StudentDao">
-
     <select id="findall" resultType="com.web.blog.entity.Student">
         select * from student where concat(name,major,sclass,id) like "%"#{key}"%" and s_state=1
     </select>
@@ -35,5 +33,35 @@
     <update id="total" >
         update student set total_result=#{total_result} where id=#{id}
     </update>
+    <select id="checkMyResult" resultType="com.web.blog.entity.Student">
+        select t_result,r_result,total_result
+        from student
+        where id=#{student_id}
+    </select>
+    <select id="isExistByID" resultType="java.lang.Integer">
+        select count(*) from student where id=#{id}
+    </select>
+    <select id="isFreezeByID" resultType="java.lang.Integer">
+        select count(*) from student where id=#{id} and s_state=0
+    </select>
+    <select id="studentLogin" resultType="com.web.blog.entity.Student">
+        select *
+        from student
+        where id=#{id} and password=#{password}
+    </select>
+    <select id="getInfo" resultType="com.web.blog.entity.Student">
+        select id,name,major,sclass,cellphone,password
+        from student
+        where id=#{student_id}
+    </select>
+    <update id="changeInfo">
+        update student
+        set cellphone=#{cellphone}
+        where id=#{student_id}
+    </update>
+    <update id="changePassword">
+        update student
+        set password=#{password}
+        where id=#{student_id} and password=#{old_password}
+    </update>
 </mapper>
-

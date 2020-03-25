@@ -4,9 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.web.blog.dao.DocumentDao">
-
     <select id="score" resultType="Double">
         select score from document where student_id=#{sid}
     </select>
+    <insert id="upload_document">
+        insert into document(designation,teacher_id,student_id,`position`)
+        values (#{designation},#{teacher_id},#{student_id},#{position})
+    </insert>
+    <select id="getMyDoument" resultType="com.web.blog.entity.Document">
+        select * from document where student_id=#{document_id}
+    </select>
+    <update id="changeMyDocument">
+         update document
+         set designation=#{designation},`position`=#{position}
+         where id=#{id}
+    </update>
 </mapper>
-

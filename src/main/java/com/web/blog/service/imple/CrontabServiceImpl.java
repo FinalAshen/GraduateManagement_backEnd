@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CrontabServiceImpl {
 
 //    @Autowired
-//    private StudentDao studentDao;
 //    @Autowired
 //    private ScoreDetailDao scoreDetailDao;
     /**

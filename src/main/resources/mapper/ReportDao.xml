@@ -2,11 +2,20 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.web.blog.dao.ReportDao">
-
     <select id="score" resultType="Double">
         select score from report where student_id=#{sid}
     </select>
+    <insert id="upload_report">
+        insert into report(designation,teacher_id,student_id,`position`)
+        values (#{designation},#{teacher_id},#{student_id},#{position})
+    </insert>
+    <select id="getMyReport" resultType="com.web.blog.entity.Report">
+        select * from report where student_id=#{student_id}
+    </select>
+    <update id="changeMyReport">
+         update report
+         set designation=#{designation},`position`=#{position}
+         where id=#{id}
+    </update>
 </mapper>
-

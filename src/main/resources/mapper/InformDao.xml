@@ -4,12 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.web.blog.dao.InformDao">
-
     <select id="findall" resultType="com.web.blog.entity.Inform">
         select * from inform
     </select>
     <insert id="createinfo">
         insert into inform (title,content,creator,begin_ts,end_ts,t_group,s_group) values (#{title},#{content},#{creator},#{begin_ts},#{end_ts},#{t_group},#{s_group})
     </insert>
+    <select id="checkMyInform" resultType="com.web.blog.entity.Inform">
+       SELECT * from inform
+      where s_group in (
+      SELECT group_id from student_group where student_id=#{student_id})
+    </select>
 </mapper>
-

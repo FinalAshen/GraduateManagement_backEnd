@@ -42,6 +42,7 @@ public class UserController {
         return userService.logout(session).toString();
     }
 
+
     @RequestMapping(value = "/getInfo")
     @ResponseBody
     public String getInfo(HttpSession session) {

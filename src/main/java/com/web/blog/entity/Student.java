@@ -1,15 +1,15 @@
 package com.web.blog.entity;
 
-import java.math.BigDecimal;
 
+import java.math.BigDecimal;
 public class Student {
-    private String id;
+    private int id;
     private String name;
     private String password;
     private String major;
     private String sclass;
     private String cellphone;
-    private String teacher_id;
+    private int teacher_id;
     private double t_result;
     private double r_result;
     private BigDecimal total_result;
@@ -32,11 +32,11 @@ public class Student {
         this.r_state = r_state;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -80,11 +80,11 @@ public class Student {
         this.cellphone = cellphone;
     }
 
-    public String getTeacher_id() {
+    public int getTeacher_id() {
         return teacher_id;
     }
 
-    public void setTeacher_id(String teacher_id) {
+    public void setTeacher_id(int teacher_id) {
         this.teacher_id = teacher_id;
     }
 

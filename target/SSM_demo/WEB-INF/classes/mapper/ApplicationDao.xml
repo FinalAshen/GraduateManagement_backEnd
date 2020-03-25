@@ -4,7 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.web.blog.dao.ApplicationDao">
-
     <select id="findall" resultType="com.web.blog.entity.Application">
         select * from application where concat(teacher_id,student_id,status) like "%"#{key}"%" ORDER BY crt_ts
     </select>
@@ -20,5 +19,30 @@
         </choose>
         where id=#{id}
     </update>
+    <update id="applyApplication">
+        insert  into application(teacher_id,student_id,dstatus)values (#{teacher_id},#{student_id},1)
+    </update>
+    <select id="if_exsist" resultType="java.lang.Integer">
+        select count(*) from application where student_id=#{student_id} and (`status`=1 or `status`=0)
+    </select>
+    <select id="check_application" resultType="com.web.blog.entity.Application">
+        select * from application where student_id=#{student_id} order by  crt_ts desc
+    </select>
+    <delete id="cancelMyApplication">
+        delete from application where id=#{id} and status=0 and student_id=#{student_id}
+    </delete>
+    <insert id="choiceTask">
+        insert into application(teacher_id,student_id,dstatus)
+        values (#{teacher_id},#{student_id},#{task_id})
+    </insert>
+    <update id="accept_application">
+        update application
+        set status=1
+        where dstatus=0 and id=#{application_id} and status=0
+    </update>
+    <update id="refuse_application">
+        update application
+        set status=-1
+        where dstatus=0 and id=#{application_id} and status=0
+    </update>
 </mapper>
-

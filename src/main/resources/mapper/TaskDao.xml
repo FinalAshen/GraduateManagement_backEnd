@@ -2,9 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.web.blog.dao.TaskDao">
-
     <update id="check">
         update task set status=
         <choose>
@@ -21,5 +19,16 @@
     <select id="findstu" resultType="java.lang.String">
         select distinct student_id from task where teacher_id=#{teacher_id} and direction=#{direction}
     </select>
+    <select id="if_Elect_Task" resultType="java.lang.Integer">
+        select count(*) from  task where student_id=#{student_id}
+    </select>
+    <select id="getMyTask" resultType="com.web.blog.entity.Task">
+        select  task.id,designation,direction,charter,crt_ts,lm_ts,teacher_id and name as teacher_name
+        from teacher,task
+        where student_id=#{student_id} and teacher.t_state=1
+    </select>
+    <select id="selectTask" resultType="com.web.blog.entity.Task">
+        select * from Task
+        where concat(designation,direction) like "%"#{key}"%" and status=1 and student_id=''
+    </select>
 </mapper>
-

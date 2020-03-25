@@ -6,7 +6,13 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import com.web.blog.entity.Skill_map;
+import com.web.blog.entity.Student;
+import com.web.blog.entity.Teacher;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
 @Repository
 public interface StudentDao {
     public List<Student> findall(String key);
@@ -23,5 +29,12 @@ public interface StudentDao {
 
     public void createstu(@Param("id") String id, @Param("name") String name, @Param("password") String password, @Param("major") String major, @Param("sclass") String sclass, @Param("cellphone") String cellphone, @Param("teacher_id") String teacher_id);
 
+    Student studentLogin(@Param("id") int id,@Param("password") String password);
+    int isExistByID(@Param("id") int id);
+    int isFreezeByID(@Param("id") int id);
+    Student checkMyResult(int student_id);
+    Student getInfo(int student_id);
+    int changeInfo(@Param("student_id") int student_id,@Param("cellphone") int cellphone);
+    int changePassword(@Param("student_id") int student_id,@Param("old_password") String old_password,@Param("password") String password);
 
 }
