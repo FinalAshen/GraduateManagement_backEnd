@@ -17,8 +17,6 @@ public class DocumentServiceImple implements DocumentService {
 
     @Override
     public double score(String sid) {
-        System.out.println("55555");
-        System.out.println(sid);
         return documentDao.score(sid);
     }
 }
