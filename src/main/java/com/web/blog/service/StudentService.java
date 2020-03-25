@@ -4,6 +4,7 @@ import com.web.blog.entity.Student;
 
 import java.math.BigDecimal;
 import java.util.List;
+
 import com.web.blog.entity.Document;
 import com.web.blog.entity.Report;
 import com.web.blog.entity.Student;
@@ -17,52 +18,70 @@ import java.io.IOException;
 
 
 public interface StudentService {
-    final String IDENTITY="stduent";
+    final String IDENTITY = "stduent";
     final double FILE_SIZE = 51200000;
 
-    public List<Student> findall(String key, int pageNum, int pageSize);
+    JSONObject findall(String key, int pageNum, int pageSize);
 
-    public void updatepwd(String id, String pwd);
+    JSONObject updatepwd(String id, String pwd);
 
-    public void delete(String id);
+    JSONObject delete(String id);
 
-    public Student findbyid(String id);
+    JSONObject findbyid(String id);
 
-    public void updatereply(String id,String flag);
+    JSONObject updatereply(String id, String flag);
 
-    public boolean createstu(String id,String name,String password,String major,String sclass,String cellphone,String teacher_id);
+    JSONObject createstu(String id, String name, String password, String major, String sclass, String cellphone, String teacher_id);
 
-    public void total(String id, BigDecimal total_result);
+    JSONObject total(String id, BigDecimal total_result);
 
-    JSONObject studentLogin(HttpSession session,  Student student);
+    JSONObject studentLogin(HttpSession session, Student student);
+
     JSONObject getInfo(HttpSession session);
-    JSONObject changeInfo(HttpSession session,int cellphone);
-    JSONObject changePassword(HttpSession session,String old_password,String password);
 
-    JSONObject getTeacher(int pageSize,int pageCurrent,String key);
+    JSONObject changeInfo(HttpSession session, int cellphone);
 
-    JSONObject applyTeacher(HttpSession session,int teacherid);
+    JSONObject changePassword(HttpSession session, String old_password, String password);
+
+    JSONObject getTeacher(int pageSize, int pageCurrent, String key);
+
+    JSONObject applyTeacher(HttpSession session, int teacherid);
+
     JSONObject check_application(HttpSession session);
-    JSONObject accept_application(HttpSession session,int applictaion_id);
-    JSONObject refuse_application(HttpSession session,int applictaion_id);
-    JSONObject cancelMyApplciation(HttpSession session,int id);
-    JSONObject getMyTask (HttpSession session);
+
+    JSONObject accept_application(HttpSession session, int applictaion_id);
+
+    JSONObject refuse_application(HttpSession session, int applictaion_id);
+
+    JSONObject cancelMyApplciation(HttpSession session, int id);
+
+    JSONObject getMyTask(HttpSession session);
 
     JSONObject upload_document(HttpSession session, HttpServletRequest request, MultipartFile file, int teacher_id) throws IOException;
-    JSONObject getMyDocument(HttpSession session,HttpServletRequest request);
-    JSONObject changeMyDocument(HttpSession session,HttpServletRequest request,MultipartFile file,int document_id)throws IOException;
+
+    JSONObject getMyDocument(HttpSession session, HttpServletRequest request);
+
+    JSONObject changeMyDocument(HttpSession session, HttpServletRequest request, MultipartFile file, int document_id) throws IOException;
 
     JSONObject upload_report(HttpSession session, HttpServletRequest request, MultipartFile file, int teacher_id) throws IOException;
+
     JSONObject getMyReport(HttpSession session, HttpServletRequest request);
-    JSONObject changeMyReport(HttpSession session,HttpServletRequest request,MultipartFile file,int report_id)throws IOException;
+
+    JSONObject changeMyReport(HttpSession session, HttpServletRequest request, MultipartFile file, int report_id) throws IOException;
 
     JSONObject upload_thesis(HttpSession session, HttpServletRequest request, MultipartFile file, int teacher_id) throws IOException;
+
     JSONObject getMyThesis(HttpSession session, HttpServletRequest request);
-    JSONObject changeMyThesis(HttpSession session,HttpServletRequest request,MultipartFile file,int thesis_id)throws IOException;
+
+    JSONObject changeMyThesis(HttpSession session, HttpServletRequest request, MultipartFile file, int thesis_id) throws IOException;
 
     JSONObject getMyTeacher(HttpSession session);
+
     JSONObject selectTask(String key);
+
     JSONObject checkMyInform(HttpSession session);
-    JSONObject choiceTask(HttpSession session,int teacher_id,int task_id);
+
+    JSONObject choiceTask(HttpSession session, int teacher_id, int task_id);
+
     JSONObject checkMyResult(HttpSession session);
 }

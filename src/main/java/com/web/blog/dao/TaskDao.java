@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface TaskDao {
-    public void check(@Param("id")String id,@Param("flag")String flag,@Param("review") String review);
+    public int check(@Param("id")String id,@Param("flag")String flag,@Param("review") String review);
     public List findstu(@Param("teacher_id") String teacher_id,@Param("direction")String direction);
 
     public int if_Elect_Task(int student_id);

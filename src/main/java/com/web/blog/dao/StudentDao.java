@@ -17,17 +17,17 @@ import java.util.List;
 public interface StudentDao {
     public List<Student> findall(String key);
 
-    public void updatepwd(@Param("id") String id, @Param("pwd") String pwd);
+    public int updatepwd(@Param("id") String id, @Param("pwd") String pwd);
 
-    public void total(@Param("id") String id, @Param("total_result") BigDecimal total_result);
+    public int total(@Param("id") String id, @Param("total_result") BigDecimal total_result);
 
-    public void delete(String id);
+    public int delete(String id);
 
     public Student findbyid(String id);
 
-    public void updatereply(@Param("id") String id, @Param("flag") String flag);
+    public int updatereply(@Param("id") String id, @Param("flag") String flag);
 
-    public void createstu(@Param("id") String id, @Param("name") String name, @Param("password") String password, @Param("major") String major, @Param("sclass") String sclass, @Param("cellphone") String cellphone, @Param("teacher_id") String teacher_id);
+    public int createstu(@Param("id") String id, @Param("name") String name, @Param("password") String password, @Param("major") String major, @Param("sclass") String sclass, @Param("cellphone") String cellphone, @Param("teacher_id") String teacher_id);
 
     Student studentLogin(@Param("id") int id,@Param("password") String password);
     int isExistByID(@Param("id") int id);

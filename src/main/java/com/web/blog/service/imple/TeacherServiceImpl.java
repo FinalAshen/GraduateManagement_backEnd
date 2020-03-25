@@ -1,12 +1,15 @@
 package com.web.blog.service.imple;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.web.blog.dao.TeacherDao;
 import com.web.blog.entity.Student;
 import com.web.blog.entity.Teacher;
 import com.web.blog.service.TeacherService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import utils.Feedback;
 
 import java.util.List;
 
@@ -21,7 +24,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> findall(String key, int pageNum, int pageSize) {
+    public JSONObject findall(String key, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Teacher> teachers;
         if (key == null) {
@@ -29,34 +32,41 @@ public class TeacherServiceImpl implements TeacherService {
         } else {
             teachers = teacherDao.findall(key);
         }
-        return teachers;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("getTeachers", JSON.toJSON(teachers));
+        return Feedback.jsonObject(jsonObject, Feedback.STATUS_SUCCESS);
     }
 
     @Override
-    public void updatepwd(String id, String pwd) {
-        System.out.println(id+pwd+"service");
-        teacherDao.updatepwd(id,pwd);
-    }
-
-    @Override
-    public void delete(String id) {
-        teacherDao.delete(id);
-    }
-
-    @Override
-    public Teacher findbyid(String id) {
-        return teacherDao.findbyid(id);
-    }
-
-    @Override
-    public boolean createtea(String id, String name, String password, String cellphone) {
-        System.out.println(id+name+password+cellphone);
-        System.out.println(teacherDao.findbyid(id));
-        if(teacherDao.findbyid(id)==null)
-        {
-            teacherDao.createtea(id,name,password,cellphone);
-            return true;
+    public JSONObject updatepwd(String id, String pwd) {
+        if (teacherDao.updatepwd(id, pwd) > 0) {
+            return Feedback.info("修改老师密码成功", Feedback.STATUS_SUCCESS);
         }
-        return false;
+        return Feedback.info("修改老师密码失败功", Feedback.STATUS_UNKNOWN_ERROR);
+    }
+
+    @Override
+    public JSONObject delete(String id) {
+        if (teacherDao.delete(id)>0)
+        {
+            return Feedback.info("删除老师成功", Feedback.STATUS_SUCCESS);
+        }
+        return Feedback.info("删除老师失败",Feedback.STATUS_UNKNOWN_ERROR);
+    }
+
+    @Override
+    public JSONObject findbyid(String id) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("getTeacherbyid", JSON.toJSON(teacherDao.findbyid(id)));
+        return Feedback.jsonObject(jsonObject, Feedback.STATUS_SUCCESS);
+    }
+
+    @Override
+    public JSONObject createtea(String id, String name, String password, String cellphone) {
+        if (teacherDao.findbyid(id) == null) {
+            teacherDao.createtea(id, name, password, cellphone);
+            return Feedback.info("创建老师成功", Feedback.STATUS_SUCCESS);
+        }
+        return Feedback.info("创建老师失败", Feedback.STATUS_UNKNOWN_ERROR);
     }
 }

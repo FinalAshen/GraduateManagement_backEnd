@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface ApplicationDao {
     public List<Application> findall(String key);
-    public void check(@Param("id")String id,@Param("flag")String flag);
+    public int check(@Param("id")String id,@Param("flag")String flag);
     public int applyApplication(@Param("student_id") int student_id,@Param("teacher_id") int teacher_id);
     public int if_exsist(int student_id);
     public List<Application> check_application(int student_id);

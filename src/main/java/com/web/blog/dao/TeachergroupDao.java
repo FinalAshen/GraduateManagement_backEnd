@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface TeachergroupDao {
-    public void creategroup(@Param("group_id")String group_id,@Param("teacher_id")String teacher_id,@Param("direction")String direction);
+    public int creategroup(@Param("group_id")String group_id,@Param("teacher_id")String teacher_id,@Param("direction")String direction);
     public List findgroup(@Param("direction")String direction);
 }

@@ -22,18 +22,15 @@ public class AdminServiceImple implements AdminService {
 
     @Override
     public JSONObject login(HttpSession session, String id, String password) {
-        System.out.println(AdminService.IDENTITY);
         if (session.getAttribute(AdminService.IDENTITY) != null) {
             session.removeAttribute(AdminService.IDENTITY);
         }
         Admin adm = adminDao.getInfoById(id);
-        System.out.println(adm.toString());
         if (adm != null && adm.getPassword().equals(password)) {
             adm.setPassword(null);
             session.setAttribute(AdminService.IDENTITY, adm);
             return Feedback.info(AdminService.IDENTITY, Feedback.STATUS_SUCCESS);
         }
-
         return Feedback.info("账号或密码错误", Feedback.STATUS_ERROR);
     }
 

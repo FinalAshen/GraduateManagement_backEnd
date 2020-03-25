@@ -56,3 +56,4 @@ public class Report {
         this.position = position;
     }
 }
+

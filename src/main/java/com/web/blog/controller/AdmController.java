@@ -48,8 +48,8 @@ public class AdmController {
     @RequestMapping(value = "/admlogin", produces = "text/plain;charset=utf-8")
     @ResponseBody
     public String login(HttpSession session, String id, String password) {
-        System.out.println(id+password);
-        return adminService.login(session,id,password).toString();
+        System.out.println(id + password);
+        return adminService.login(session, id, password).toString();
     }
 
     @RequestMapping(value = "/admlogout", produces = "text/plain;charset=utf-8")
@@ -61,149 +61,135 @@ public class AdmController {
     @RequestMapping(value = "/stuaccount", produces = "text/plain;charset=utf-8")
     @ResponseBody
     public String students(@RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize, String key) throws Exception {
-        List<Student> students = studentService.findall(key, pageNum, pageSize);
-        System.out.println(JSONObject.toJSONString(students));
-        return JSONObject.toJSONString(students);
+        return studentService.findall(key, pageNum, pageSize).toString();
     }
 
     //学生操作
     @RequestMapping(value = "/updatestudentpwd", produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public void updatestudentpwd(String id, String pwd) {
-        studentService.updatepwd(id, pwd);
+    public String updatestudentpwd(String id, String pwd) {
+        return studentService.updatepwd(id, pwd).toString();
     }
 
     @RequestMapping(value = "/stuinfobyid", produces = "text/plain;charset=utf-8")
     @ResponseBody
     public String findstubyid(String id) {
-        Student student = studentService.findbyid(id);
-        return JSONObject.toJSONString(student);
+        return studentService.findbyid(id).toString();
     }
 
-    @RequestMapping(value = "/updatereply", produces = "text/plain;charset=utf-8")
+    @RequestMapping(value = "/updatestureply", produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public void updatestureply(String id, String flag) {
-        studentService.updatereply(id, flag);
+    public String updatestureply(String id, String flag) {
+        return studentService.updatereply(id, flag).toString();
+    }
+
+    @RequestMapping(value = "/createstu", produces = "text/plain;charset=utf-8")
+    @ResponseBody
+    public String createstu(String id, String name, String password, String major, String sclass, String cellphone, String teacher_id) {
+        return studentService.createstu(id, name, password, major, sclass, cellphone, teacher_id).toString();
     }
 
     @RequestMapping(value = "/deletestu", produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public void deletestu(String id) {
-        studentService.delete(id);
+    public String deletestu(String id) {
+        return studentService.delete(id).toString();
+    }
+
+    @RequestMapping(value = "/totalresult", produces = "text/plain;charset=utf-8")
+    @ResponseBody
+    public String calculateresult(String id) {
+        double score = documentService.score(id) * 0.2 + reportService.score(id) * 0.2 + thesisService.score(id) * 0.6;
+        BigDecimal bigDecimal = new BigDecimal(score);
+        return studentService.total(id, bigDecimal).toString();
     }
 
     //老师操作
     @RequestMapping(value = "/tchaccount", produces = "text/plain;charset=utf-8")
     @ResponseBody
     public String teachers(@RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize, String key) throws Exception {
-        List<Teacher> teachers = teacherService.findall(key, pageNum, pageSize);
-        System.out.println(JSONObject.toJSONString(teachers));
-        return JSONObject.toJSONString(teachers);
+        return teacherService.findall(key, pageNum, pageSize).toString();
     }
 
     @RequestMapping(value = "/updateteacherpwd", produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public void updateteacher(String id, String pwd) {
-
-        teacherService.updatepwd(id, pwd);
-        System.out.println(id + pwd);
+    public String updateteacher(String id, String pwd) {
+        return teacherService.updatepwd(id, pwd).toString();
     }
 
     @RequestMapping(value = "/teainfobyid", produces = "text/plain;charset=utf-8")
     @ResponseBody
     public String findteabyid(String id) {
-        Teacher teacher = teacherService.findbyid(id);
-        return JSONObject.toJSONString(teacher);
+        return teacherService.findbyid(id).toString();
     }
 
     @RequestMapping(value = "/deletetea", produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public void deletetea(String id) {
-        teacherService.delete(id);
+    public String deletetea(String id) {
+        return teacherService.delete(id).toString();
+    }
+
+    @RequestMapping(value = "/createtea", produces = "text/plain;charset=utf-8")
+    @ResponseBody
+    public String createtea(String id, String name, String password, String cellphone) {
+        return teacherService.createtea(id, name, password, cellphone).toString();
     }
 
     //申请操作
     @RequestMapping(value = "/applicaccount", produces = "text/plain;charset=utf-8")
     @ResponseBody
     public String findallapplication(@RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize, String key) {
-        List<Application> applications = applicationService.findall(key, pageNum, pageSize);
-        return JSONObject.toJSONString(applications);
+        return applicationService.findall(key, pageNum, pageSize).toString();
     }
 
     @RequestMapping(value = "/checkapplication", produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public void checkapplication(String id, String flag) {
-        applicationService.check(id, flag);
+    public String checkapplication(String id, String flag) {
+        return applicationService.check(id, flag).toString();
     }
 
-    @RequestMapping(value = "/teacherskill", produces = "text/plain;charset=utf-8")
-    @ResponseBody
-    public String teacherskill(String tid) {
-        List<Skill_map> teacherskill = skillmapService.teacherskill(tid);
-        return JSONObject.toJSONString(teacherskill);
-    }
-
+    //    @RequestMapping(value = "/teacherskill", produces = "text/plain;charset=utf-8")
+//    @ResponseBody
+//    public String teacherskill(String tid) {
+//        List<Skill_map> teacherskill = skillmapService.teacherskill(tid);
+//        return JSONObject.toJSONString(teacherskill);
+//    }
+//通知操作
     @RequestMapping(value = "/findallinform", produces = "text/plain;charset=utf-8")
     @ResponseBody
     public String findallinform() {
-        return JSONObject.toJSONString(informService.findall());
-    }
-
-    @RequestMapping(value = "/checktask", produces = "text/plain;charset=utf-8")
-    @ResponseBody
-    public void checktask(String id, String flag, String review) {
-        taskService.check(id, flag, review);
-    }
-
-    @RequestMapping(value = "/createstu", produces = "text/plain;charset=utf-8")
-    @ResponseBody
-    public void createstu(String id, String name, String password, String major, String sclass, String cellphone, String teacher_id) {
-        System.out.println(studentService.createstu(id, name, password, major, sclass, cellphone, teacher_id));
+        return informService.findall().toString();
     }
 
     @RequestMapping(value = "/createinfo", produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public void createinfo(String title, String content, String creator, String begin_ts, String end_ts, String t_group, String s_group) {
-        informService.createinfo(title, content, creator, begin_ts, end_ts, t_group, s_group);
+    public String createinfo(String title, String content, String creator, String begin_ts, String end_ts, String t_group, String s_group) {
+        return informService.createinfo(title, content, creator, begin_ts, end_ts, t_group, s_group).toString();
     }
 
-    @RequestMapping(value = "/createtea", produces = "text/plain;charset=utf-8")
+    //课题申请审核
+    @RequestMapping(value = "/checktask", produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public void createtea(String id, String name, String password, String cellphone) {
-        teacherService.createtea(id, name, password, cellphone);
+    public String checktask(String id, String flag, String review) {
+        return taskService.check(id, flag, review).toString();
     }
 
-    @RequestMapping(value = "/totalresult", produces = "text/plain;charset=utf-8")
-    @ResponseBody
-    public void calculateresult(String id) {
-        double score = documentService.score(id) * 0.2 + reportService.score(id) * 0.2 + thesisService.score(id) * 0.6;
-        BigDecimal bigDecimal = new BigDecimal(score);
-        studentService.total(id, bigDecimal);
-    }
 
     @RequestMapping(value = "/fenzu", produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public void fenzu(String name, String group_id) {
-        List t = skillmapService.findtea(name);
-        for (int i = 0; i < t.size(); i++) {
-            List s = taskService.findstu(t.get(i).toString(), name);
-            for (int j = 0; j < s.size(); j++) {
-                studentgroupService.creategroup(group_id, s.get(i).toString(), name);
-            }
-            teachergroupService.creategroup(group_id, t.get(i).toString(), name);
-        }
+    public String fenzu(String name, String group_id) {
+        return teachergroupService.fenzu(name, group_id).toString();
     }
 
     @RequestMapping(value = "/findstugroupbydirectiton", produces = "text/plain;charset=utf-8")
     @ResponseBody
     public String findstugroupbydirectiton(String direction) {
-        return JSONObject.toJSONString(studentgroupService.findgroup(direction));
+        return studentgroupService.findgroup(direction).toString();
     }
 
     @RequestMapping(value = "/findteagroupbydirectiton", produces = "text/plain;charset=utf-8")
     @ResponseBody
     public String findteagroupbydirectiton(String direction) {
-        return JSONObject.toJSONString(teachergroupService.findgroup(direction));
+        return teachergroupService.findgroup(direction).toString();
     }
 
 }

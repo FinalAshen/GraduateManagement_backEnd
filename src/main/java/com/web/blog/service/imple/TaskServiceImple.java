@@ -2,8 +2,10 @@ package com.web.blog.service.imple;
 
 import com.web.blog.dao.TaskDao;
 import com.web.blog.service.TaskService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import utils.Feedback;
 
 import java.util.List;
 
@@ -17,8 +19,12 @@ public class TaskServiceImple implements TaskService {
     }
 
     @Override
-    public void check(String id, String flag, String review) {
-        taskDao.check(id,flag,review);
+    public JSONObject check(String id, String flag, String review) {
+        if(taskDao.check(id,flag,review)>0)
+        {
+            return Feedback.info("课题申请操作成功",Feedback.STATUS_SUCCESS);
+        }
+        return Feedback.info("课题申请操作失败",Feedback.STATUS_UNKNOWN_ERROR);
     }
 
     @Override

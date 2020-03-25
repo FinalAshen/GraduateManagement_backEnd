@@ -196,6 +196,12 @@
       <version>4.12</version>
       <scope>compile</scope>
     </dependency>
+    <!-- 引入mybatis的 pagehelper 分页插件 -->
+    <dependency>
+      <groupId>com.github.pagehelper</groupId>
+      <artifactId>pagehelper</artifactId>
+      <version>5.1.2</version>
+    </dependency>
   </dependencies>
 
 

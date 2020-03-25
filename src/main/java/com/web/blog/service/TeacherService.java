@@ -1,17 +1,18 @@
 package com.web.blog.service;
 
 import com.web.blog.entity.Teacher;
+import org.json.JSONObject;
 
 import java.util.List;
 
 public interface TeacherService {
-    public List<Teacher> findall(String key, int pageNum, int pageSize);
+    JSONObject findall(String key, int pageNum, int pageSize);
 
-    public void updatepwd(String id, String pwd);
+    JSONObject updatepwd(String id, String pwd);
 
-    public void delete(String id);
+    JSONObject delete(String id);
 
-    public Teacher findbyid(String id);
+    JSONObject findbyid(String id);
 
-    public boolean createtea(String id,String name,String password,String cellphone);
+    JSONObject createtea(String id,String name,String password,String cellphone);
 }
