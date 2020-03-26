@@ -27,8 +27,13 @@
         from teacher,task
         where student_id=#{student_id} and teacher.t_state=1
     </select>
+    <select id="selectTaskCount" resultType="java.lang.Integer">
+                select count(*)from Task
+        where concat(designation,direction) like "%"#{key}"%" and status=1 and student_id is Null
+    </select>
     <select id="selectTask" resultType="com.web.blog.entity.Task">
         select * from Task
-        where concat(designation,direction) like "%"#{key}"%" and status=1 and student_id=''
+        where concat(designation,direction) like "%"#{key}"%" and status=1 and student_id is Null
+        limit #{page},#{pageSize}
     </select>
 </mapper>

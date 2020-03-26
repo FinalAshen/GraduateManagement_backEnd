@@ -7,6 +7,7 @@ public class Teacher {
     private String cellphone;
     private String t_state;
     private List<Skill_map> skill_maps;
+    private int count;
     public String getT_state() {
         return t_state;
     }

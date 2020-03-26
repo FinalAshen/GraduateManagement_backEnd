@@ -20,8 +20,8 @@ public interface TeacherDao {
 
     public int createtea(@Param("id")String id,@Param("name")String name,@Param("password")String password,@Param("cellphone")String cellphone);
 
-    List<Teacher> getTeacher(String skill);
+    List<Teacher> getTeacher(@Param("skill")String skill,@Param("page")int page,@Param("pageSize")int pageSize);
     List<Skill_map> getSkill(List<Teacher> teachers);
     List<Teacher> getMyTeacher(int student_id);
-
+    int getTeacherCount(@Param("skill")String skill);
 }

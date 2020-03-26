@@ -19,9 +19,16 @@
     <insert id="createtea">
         insert into teacher (id,name,password,cellphone) values (#{id},#{name},#{password},#{cellphone});
     </insert>
+    <select id="getTeacherCount" resultType="java.lang.Integer">
+              select count(DISTINCT teacher.id) from teacher,skill_map
+        where (skill_map.name like "%"#{skill}"%" and teacher.id=skill_map.teacherid)  or teacher.name like "%"#{skill}"%"
+        order by teacher.id
+    </select>
     <select id="getTeacher" resultType="com.web.blog.entity.Teacher">
       select distinct teacher.id,teacher.name from teacher,skill_map
-        where concat(skill_map.name,teacher.name) like "%"#{skill}"%" and teacher.id=skill_map.teacherid
+        where (skill_map.name like "%"#{skill}"%" and teacher.id=skill_map.teacherid)  or teacher.name like "%"#{skill}"%"
+        order by teacher.id
+        limit #{page},#{pageSize}
     </select>
     <select id="getSkill" resultType="com.web.blog.entity.Skill_map">
         select * from skill_map

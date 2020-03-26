@@ -15,6 +15,7 @@ public interface TaskDao {
 
     public int if_Elect_Task(int student_id);
     public List<Task> getMyTask(int student_id);
-    public List<Task> selectTask(String key);
+    public int selectTaskCount(String key);
+    public List<Task> selectTask(@Param("key")String key,@Param("pageSize") int pageSize,@Param("page") int page);
 
 }

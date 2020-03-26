@@ -39,7 +39,7 @@ public class StudentControler {
     @RequestMapping(value = "/getTeacher")
     @ResponseBody
     public String getTeacher(int pageSize, int pageCurrent,String skill){
-        return studentService.getTeacher(pageSize,pageCurrent,skill).toString();
+        return studentService.getTeacher(pageSize,(pageCurrent-1)*pageSize,skill).toString();
     }
 
     @RequestMapping(value = "/getInfo")
@@ -151,8 +151,8 @@ public class StudentControler {
 
     @RequestMapping("/cancelMyApplication")
     @ResponseBody
-    public String cancelMyApplication(HttpSession session,int id){
-        return studentService.cancelMyApplciation(session,id).toString();
+    public String cancelMyApplication(HttpSession session,int application_id){
+        return studentService.cancelMyApplciation(session,application_id).toString();
     }
 
     @RequestMapping("/getMyTeacher")
@@ -163,8 +163,8 @@ public class StudentControler {
 
     @RequestMapping("/selectTask")
     @ResponseBody
-    public String selectTask(String key){
-        return studentService.selectTask(key).toString();
+    public String selectTask(String key,int pageCurrent,int pageSize){
+        return studentService.selectTask(key,pageSize,(pageCurrent-1)*pageSize).toString();
     }
 
     @RequestMapping("/checkMyInform")
