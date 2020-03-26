@@ -5,7 +5,7 @@
 
 <mapper namespace="com.web.blog.dao.TeacherDao">
     <select id="findall" resultType="com.web.blog.entity.Teacher">
-        select * from teacher where concat(name,cellphone,id) like "%"#{key}"%" and t_state=1
+        select * from teacher where concat(name,cellphone,id) like "%"#{key}"%" and t_state=1 limit #{page},#{pageSize}
     </select>
     <select id="findbyid" resultType="com.web.blog.entity.Teacher">
         select * from teacher where id=#{id} and t_state=1
@@ -19,6 +19,9 @@
     <insert id="createtea">
         insert into teacher (id,name,password,cellphone) values (#{id},#{name},#{password},#{cellphone});
     </insert>
+    <select id="getTeacherSum" resultType="java.lang.Integer">
+       select count (*) from teacher where concat(name,cellphone,id) like "%"#{key}"%" and t_state=1
+    </select>
     <select id="getTeacherCount" resultType="java.lang.Integer">
               select count(DISTINCT teacher.id) from teacher,skill_map
         where (skill_map.name like "%"#{skill}"%" and teacher.id=skill_map.teacherid)  or teacher.name like "%"#{skill}"%"

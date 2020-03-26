@@ -5,7 +5,10 @@
 
 <mapper namespace="com.web.blog.dao.ApplicationDao">
     <select id="findall" resultType="com.web.blog.entity.Application">
-        select * from application where concat(teacher_id,student_id,status) like "%"#{key}"%" ORDER BY crt_ts
+        select * from application where concat(teacher_id,student_id,status) like "%"#{key}"%" ORDER BY crt_ts limit #{page},#{pageSize}
+    </select>
+    <select id="getAppSum" resultType="java.lang.Integer">
+       select count (*) from application where concat(teacher_id,student_id,status) like "%"#{key}"%"
     </select>
     <update id="check">
         update application set status=

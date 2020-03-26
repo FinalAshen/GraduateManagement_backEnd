@@ -15,7 +15,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface StudentDao {
-    public List<Student> findall(String key);
+    public List<Student> findall(@Param("key") String key,@Param("page")int page,@Param("pageSize")int pageSize);
+
+    public int getStudentSum(String key);
 
     public int updatepwd(@Param("id") String id, @Param("pwd") String pwd);
 

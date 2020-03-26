@@ -6,6 +6,6 @@ import org.json.JSONObject;
 import java.util.List;
 
 public interface ApplicationService {
-    JSONObject findall(String key, int pageNum, int pageSize);
+    JSONObject findall(int pageSize,int pageCurrent,String key);
     JSONObject check(String id,String flag);
 }

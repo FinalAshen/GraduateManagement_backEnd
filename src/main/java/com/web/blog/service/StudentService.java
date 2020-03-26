@@ -20,7 +20,7 @@ public interface StudentService {
     final String IDENTITY="stduent";
     final double FILE_SIZE = 51200000;
 
-    JSONObject findall(String key, int pageNum, int pageSize);
+    JSONObject findall(int pageSize,int pageCurrent,String key);
 
     JSONObject updatepwd(String id, String pwd);
 

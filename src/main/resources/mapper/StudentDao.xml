@@ -4,10 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.web.blog.dao.StudentDao">
     <select id="findall" resultType="com.web.blog.entity.Student">
-        select * from student where concat(name,major,sclass,id) like "%"#{key}"%" and s_state=1
+        select * from student where concat(name,major,sclass,id) like "%"#{key}"%" and s_state=1 limit #{page},#{pageSize}
     </select>
     <select id="findbyid" resultType="com.web.blog.entity.Student">
         select * from student where id=#{id}
+    </select>
+    <select id="getStudentSum" resultType="java.lang.Integer">
+       select count (*) from student where concat(name,major,sclass,id) like "%"#{key}"%" and s_state=1
     </select>
     <update id="updatepwd" >
         update student set password=#{pwd} where id=#{id}

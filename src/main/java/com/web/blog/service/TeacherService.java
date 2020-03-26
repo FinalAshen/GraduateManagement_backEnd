@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 public interface TeacherService {
-    JSONObject findall(String key, int pageNum, int pageSize);
+    JSONObject findall(int pageNum, int pageSize,String key);
 
     JSONObject updatepwd(String id, String pwd);
 

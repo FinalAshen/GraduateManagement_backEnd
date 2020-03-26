@@ -24,18 +24,22 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public JSONObject findall(String key, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+    public JSONObject findall(int pageSize,int pageCurrent,String key) {
+        int sumPage;
         List<Teacher> teachers;
         if (key == null) {
-            teachers = teacherDao.findall("");
+            sumPage=teacherDao.getTeacherSum("");
+            teachers = teacherDao.findall("",pageCurrent,pageSize);
         } else {
-            teachers = teacherDao.findall(key);
+            sumPage=teacherDao.getTeacherSum(key);
+            teachers = teacherDao.findall(key,pageCurrent,pageSize);
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("getTeachers", JSON.toJSON(teachers));
+        jsonObject.put("teacherSumPage",sumPage);
         return Feedback.jsonObject(jsonObject, Feedback.STATUS_SUCCESS);
     }
+
 
     @Override
     public JSONObject updatepwd(String id, String pwd) {

@@ -54,19 +54,7 @@ public class StudentServiceImple implements StudentService {
     private ThesisDao thesisDao;
     @Autowired
     private InformDao informDao;
-    @Override
-    public JSONObject findall(String key, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<Student> students;
-        if (key == null) {
-            students = studentDao.findall("");
-        } else {
-            students = studentDao.findall(key);
-        }
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("getStudents", JSON.toJSON(students));
-        return Feedback.jsonObject(jsonObject, Feedback.STATUS_SUCCESS);
-    }
+
 
     @Override
     @Transactional
@@ -187,8 +175,24 @@ public class StudentServiceImple implements StudentService {
     }
 
     @Override
+    public JSONObject findall(int pageSize,int pageCurrent,String key) {
+        int sumPage;
+        List<Student> students;
+        if (key == null) {
+            sumPage=studentDao.getStudentSum("");
+            students = studentDao.findall("",pageCurrent,pageSize);
+        } else {
+            sumPage=studentDao.getStudentSum(key);
+            students = studentDao.findall(key,pageCurrent,pageSize);
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("getStudents", JSON.toJSON(students));
+        jsonObject.put("studentSumPage",sumPage);
+        return Feedback.jsonObject(jsonObject, Feedback.STATUS_SUCCESS);
+    }
+
+    @Override
     public JSONObject getTeacher(int pageSize, int pageCurrent, String skill) {
-//        PageHelper.startPage(pageCurrent,pageSize);
         int sumPage=teacherDao.getTeacherCount(skill);
         List<Teacher> teachers=teacherDao.getTeacher(skill,pageCurrent,pageSize);
         List<Skill_map> skill_maps= teacherDao.getSkill(teachers);
@@ -208,8 +212,6 @@ public class StudentServiceImple implements StudentService {
                 }
             }
         }
-//        PageInfo pageInfo = new PageInfo(teachers);
-
         JSONObject jsonObject=new JSONObject();
         jsonObject.put("getTeacher",JSON.toJSON(teachers));
         jsonObject.put("sumPage",sumPage);

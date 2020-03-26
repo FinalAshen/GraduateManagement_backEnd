@@ -8,7 +8,8 @@ import java.util.List;
 
 @Repository
 public interface ApplicationDao {
-    public List<Application> findall(String key);
+    public List<Application> findall(@Param("key") String key,@Param("page")int page,@Param("pageSize")int pageSize);
+    public int getAppSum(String key);
     public int check(@Param("id")String id,@Param("flag")String flag);
     public int applyApplication(@Param("student_id") int student_id,@Param("teacher_id") int teacher_id);
     public int if_exsist(int student_id);

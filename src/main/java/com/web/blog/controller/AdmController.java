@@ -19,7 +19,6 @@ public class AdmController {
     private final StudentService studentService;
     private final TeacherService teacherService;
     private final ApplicationService applicationService;
-    private final SkillmapService skillmapService;
     private final InformService informService;
     private final TaskService taskService;
     private final DocumentService documentService;
@@ -30,11 +29,10 @@ public class AdmController {
     private final AdminService adminService;
 
     @Autowired
-    public AdmController(StudentService studentService, TeacherService teacherService, ApplicationService applicationService, SkillmapService skillmapService, InformService informService, TaskService taskService, DocumentService documentService, ReportService reportService, ThesisService thesisService, StudentgroupService studentgroupService, TeachergroupService teachergroupService, AdminService adminService) {
+    public AdmController(StudentService studentService, TeacherService teacherService, ApplicationService applicationService, InformService informService, TaskService taskService, DocumentService documentService, ReportService reportService, ThesisService thesisService, StudentgroupService studentgroupService, TeachergroupService teachergroupService, AdminService adminService) {
         this.studentService = studentService;
         this.teacherService = teacherService;
         this.applicationService = applicationService;
-        this.skillmapService = skillmapService;
         this.informService = informService;
         this.taskService = taskService;
         this.documentService = documentService;
@@ -57,14 +55,14 @@ public class AdmController {
     public String logout(HttpSession session) {
         return adminService.logout(session).toString();
     }
-
+    //学生操作
     @RequestMapping(value = "/stuaccount", produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public String students(@RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize, String key) throws Exception {
-        return studentService.findall(key, pageNum, pageSize).toString();
+    public String students(int pageSize, int pageCurrent, String key) throws Exception {
+        return studentService.findall(pageSize,(pageCurrent-1)*pageSize,key).toString();
     }
 
-    //学生操作
+
     @RequestMapping(value = "/updatestudentpwd", produces = "text/plain;charset=utf-8")
     @ResponseBody
     public String updatestudentpwd(String id, String pwd) {
@@ -106,9 +104,10 @@ public class AdmController {
     //老师操作
     @RequestMapping(value = "/tchaccount", produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public String teachers(@RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize, String key) throws Exception {
-        return teacherService.findall(key, pageNum, pageSize).toString();
+    public String teachers(int pageSize, int pageCurrent, String key)  {
+        return teacherService.findall(pageSize,(pageCurrent-1)*pageSize,key).toString();
     }
+
 
     @RequestMapping(value = "/updateteacherpwd", produces = "text/plain;charset=utf-8")
     @ResponseBody
@@ -137,8 +136,8 @@ public class AdmController {
     //申请操作
     @RequestMapping(value = "/applicaccount", produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public String findallapplication(@RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize, String key) {
-        return applicationService.findall(key, pageNum, pageSize).toString();
+    public String findallapplication(int pageSize, int pageCurrent, String key) {
+        return applicationService.findall(pageSize,(pageCurrent-1)*pageSize,key).toString();
     }
 
     @RequestMapping(value = "/checkapplication", produces = "text/plain;charset=utf-8")

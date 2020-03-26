@@ -22,19 +22,22 @@ public class ApplicationServiceImple implements ApplicationService {
     }
 
     @Override
-    public JSONObject findall(String key, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+    public JSONObject findall(int pageSize, int pageCurrent, String key) {
         List<Application> applications;
+        int appsum;
         if(key==null)
         {
-            applications=applicationDao.findall("");
+            appsum=applicationDao.getAppSum("");
+            applications=applicationDao.findall("",pageCurrent,pageSize);
         }
         else
         {
-            applications=applicationDao.findall(key);
+            appsum=applicationDao.getAppSum(key);
+            applications=applicationDao.findall(key,pageCurrent,pageSize);
         }
         JSONObject jsonObject=new JSONObject();
         jsonObject.put("getApplications", JSON.toJSON(applications));
+        jsonObject.put("appsum",appsum);
         return Feedback.jsonObject(jsonObject, Feedback.STATUS_SUCCESS);
     }
 

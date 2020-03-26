@@ -2,6 +2,7 @@ package com.web.blog.service.imple;
 
 import com.alibaba.fastjson.JSON;
 import com.web.blog.dao.InformDao;
+import com.web.blog.entity.Admin;
 import com.web.blog.entity.Inform;
 import com.web.blog.service.AdminService;
 import com.web.blog.service.InformService;
@@ -31,6 +32,10 @@ public class InformServiceImple implements InformService {
 
     @Override
     public JSONObject createinfo(String title, String content, String creator, String begin_ts, String end_ts, String t_group, String s_group) {
+//        HttpSession session = null;
+//        Admin admin=(Admin) session.getAttribute(AdminService.IDENTITY);
+//        String creators=admin.getName();
+//        System.out.println(creators);
         if (informDao.createinfo(title, content, creator, begin_ts, end_ts, t_group, s_group) > 0) {
             return Feedback.info("发布通知成功", Feedback.STATUS_SUCCESS);
         }
