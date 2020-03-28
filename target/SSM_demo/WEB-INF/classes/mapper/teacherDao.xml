@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.blog.dao.TeacherDao">
+    <insert id="createTask" parameterType="com.web.blog.entity.TaskInfo">
+        insert into `task`
+        (`designation`, `direction`, `teacher_id`, `lm_ts`)
+        values(#{ taskInfo.designation }, #{ taskInfo.direction }, #{ taskInfo.teacher_id },
+        date_add(CURRENT_DATE(), interval #{ cycle } day));
+    </insert>
+    <delete id="deleteTask" parameterType="int">
+        delete from `task` where id=#{id};
+    </delete>
+    <update id="updateTask">
+        update `task` set
+        designation=#{ taskInfo.designation }, direction=#{ taskInfo.direction },
+        lm_ts=date_add(CURRENT_DATE(), interval #{ taskInfo.cycle } day)
+        where id=#{ taskInfo.id };
+    </update>
+    <select id="selectTask" resultType="com.web.blog.entity.TaskInfo">
+        select * from `task`
+        order by id limit #{ page },
+        <choose>
+            <when test="pageSize==-1">
+                99999
+            </when>
+            <otherwise>
+                #{ pageSize }
+            </otherwise>
+        </choose>;
+    </select>
+    <select id="selectStudent" resultType="com.web.blog.entity.StudentInfo">
+        select id, name, major, sclass, cellphone, teacher_id from `student`
+        order by id limit #{ page },
+        <choose>
+            <when test="pageSize==-1">
+                99999
+            </when>
+            <otherwise>
+                #{ pageSize }
+            </otherwise>
+        </choose>;
+    </select>
+    <update id="selectStudentAvailableByTask">
+        update `task`
+        set student_id=#{ studentID }
+        where id=#{ taskID };
+    </update>
+    <update id="selectStudentAvailableByStudent">
+        update `student`
+        set teacher_id=#{ teacherID }
+        where id=#{ studentID }
+    </update>
+    <insert id="conventStudent">
+        insert into `application`
+        (`teacher_id`, `student_id`)
+        values(#{ teacherID }, #{ studentID });
+    </insert>
+    <select id="isAgreeConventStudent" resultType="int">
+        select
+        count(*) from `application`
+        where teacher_id=#{ teacherID } and student_id=#{ studentID } and status='1' and (dstatus=1 or dstatus=0);
+    </select>
+    <insert id="defineTaskForStudent">
+        insert into `task`
+        (`designation`, `direction`, `teacher_id`, `student_id`, `lm_ts`)
+        values(#{ taskInfo.designation }, #{ taskInfo.direction }, #{ taskInfo.teacher_id }, #{ taskInfo.student_id },
+        date_add(CURRENT_DATE(), interval #{ taskInfo.cycle } day));
+    </insert>
+    <select id="isExistTopic" resultType="int">
+        select count(*)
+        from `task`
+        where designation=#{ designation } and id=#{ taskID };
+    </select>
+    <select id="selectConventStudent" resultType="Map">
+        select st.id as studentID, st.name, st.major, st.sclass, st.cellphone, dstatus, ap.status, crt_ts
+        from `student` as st, `application` as ap
+        where st.id=ap.student_id and ap.teacher_id=#{ teacherID } and status=#{ status }
+        order by st.id limit #{ page },
+        <choose>
+            <when test="pageSize==-1">
+                99999
+            </when>
+            <otherwise>
+                #{ pageSize }
+            </otherwise>
+        </choose>;
+    </select>
+    <select id="isExitConventAudit" resultType="int">
+        select count(*)
+        from `application`
+        where teacher_id=#{ teacherID } and student_id=#{ studentID } and dstatus='0' and status='0'
+    </select>
+    <update id="selectStudentAvailableByApplication">
+        update
+        `application`
+        set status=1
+        where student_id=#{ studentID } and teacher_id=#{ teacherID } and status=0;
+    </update>
+    <select id="isExistStudentAvailableByApplication" resultType="com.web.blog.entity.ApplicationInfo">
+        select * from `application`
+        where teacher_id=#{ teacherID } and student_id=#{ studentID }
+        and status!=-1;
+    </select>
+    <select id="isExistStudentAvailableByTask" resultType="com.web.blog.entity.TaskInfo">
+        select * from `task`
+        where id=#{ taskID }
+    </select>
+    <select id="isExistStudentAvailableByStudent" resultType="com.web.blog.entity.StudentInfo">
+        select * from `student`
+        where id=#{ studentID }
+    </select>
+    <select id="isExistStudentAvailableByAllTask" resultType="com.web.blog.entity.TaskInfo">
+        select * from `task` where teacher_id=#{ teacherID } and student_id=#{ studentID };
+    </select>
+    <update id="cancelStudentByTeacher">
+        update student
+        set teacher_id=0 where id=#{ studentID };
+    </update>
+    <update id="cancelStudentByTask">
+        update task
+        set student_id=0
+        where student_id=#{ studentID } and teacher_id=#{ teacherID }
+    </update>
+    <update id="givenCharterCreate">
+        update `task`
+        set  charter=#{ fileName }
+        where id=#{ taskID };
+    </update>
+    <select id="selectOwnTeacherGroup" resultType="com.web.blog.entity.TeacherGroupInfo">
+        select * from teacher_group where group_id=(
+            select group_id from teacher_group where teacher_id=#{ teacherID }
+        ) order by id limit #{ page },
+        <choose>
+            <when test="pageSize==-1">
+                99999
+            </when>
+            <otherwise>
+                #{ pageSize }
+            </otherwise>
+        </choose>;
+    </select>
+    <select id="selectAllTeacherGroup" resultType="com.web.blog.entity.TeacherGroupInfo">
+        select * from teacher_group order by id limit #{ page },
+        <choose>
+            <when test="pageSize==-1">
+                99999
+            </when>
+            <otherwise>
+                #{ pageSize }
+            </otherwise>
+        </choose>;
+    </select>
+    <select id="selectOwnStudentGroup" resultType="com.web.blog.entity.StudentGroupInfo">
+        select * from student_group where group_id=(
+        select group_id from student_group where student_id=#{ studentID }
+        ) order by id limit #{ page },
+        <choose>
+            <when test="pageSize==-1">
+                99999
+            </when>
+            <otherwise>
+                #{ pageSize }
+            </otherwise>
+        </choose>;
+    </select>
+    <select id="selectAllStudentGroup" resultType="com.web.blog.entity.StudentGroupInfo">
+        select * from student_group order by id limit #{ page },
+        <choose>
+            <when test="pageSize==-1">
+                99999
+            </when>
+            <otherwise>
+                #{ pageSize }
+            </otherwise>
+        </choose>;
+    </select>
+    <select id="isExistByID" resultType="com.web.blog.entity.TeacherInfo">
+        select * from teacher where id=#{ teacherID };
+    </select>
+    <select id="isFreezeByID" resultType="com.web.blog.entity.TeacherInfo">
+        select * from teacher where id=#{ teacherID } and t_state=0;
+    </select>
+    <select id="teacherLogin" resultType="com.web.blog.entity.TeacherInfo">
+        select * from teacher where id=#{ teacherID } and password=#{ password }
+    </select>
+    <select id="isOwnStudent" resultType="int">
+        select count(*) from application where student_id=#{ studentID } and teacher_id=#{ teacherID } and dstatus = 1;
+    </select>
+    <delete id="deleteApplication">
+        delete from `application` where teacher_id=#{ teacherID } and student_id=#{ studentID } and dstatus!=0 and status!=-1
+    </delete>
+    <select id="getMyStudent" resultType="com.web.blog.entity.StudentInfo">
+        select * from `student` where teacher_id=#{ teacherID } order by id limit #{ page },
+        <choose>
+            <when test="pageSize==-1">
+                99999
+            </when>
+            <otherwise>
+                #{ pageSize }
+            </otherwise>
+        </choose>;
+    </select>
+    <select id="getApplyMyStudent" resultType="Map">
+        select s.id, name, major, sclass, cellphone, a.teacher_id, t_result, r_result, total_result, dstatus, status,	crt_ts
+        from student as s, application as a where student_id=s.id and a.teacher_id=#{ teacherID } and status=0 and a.dstatus=1
+        order by s.id limit #{ page },
+        <choose>
+            <when test="pageSize==-1">
+                99999
+            </when>
+            <otherwise>
+                #{ pageSize }
+            </otherwise>
+        </choose>;
+    </select>
+    <select id="getInviteStudent" resultType="Map">
+        select s.id, name, major, sclass, cellphone, a.teacher_id, t_result, r_result, total_result, dstatus, status, crt_ts
+        from student as s, application as a where student_id=s.id and a.teacher_id=#{ teacherID } and a.dstatus=0
+        order by s.id limit #{ page },
+        <choose>
+            <when test="pageSize==-1">
+                99999
+            </when>
+            <otherwise>
+                #{ pageSize }
+            </otherwise>
+        </choose>;
+    </select>
+    <update id="upAgreeOwnStudent">
+        update application set status=1 where teacher_id=#{ teacherID } and student_id=#{ studentID } and dstatus=1
+    </update>
+    <update id="upSAgreeOwnStudent">
+        update student set teacher_id=#{ teacherID } where id=#{ studentID }
+    </update>
+    <select id="getHasAcceptStudent">
+        select s.id, name, major, sclass, cellphone, a.teacher_id, t_result, r_result, total_result, dstatus, status, crt_ts
+        from student as s, application as a where student_id=s.id and a.teacher_id=#{ teacherID } and a.dstatus=0
+        order by s.id limit #{ page },
+        <choose>
+            <when test="pageSize==-1">
+                99999
+            </when>
+            <otherwise>
+                #{ pageSize }
+            </otherwise>
+        </choose>;
+    </select>
+
+    <select id="findall" resultType="com.web.blog.entity.Teacher">
+        select * from teacher where concat(name,cellphone,id) like "%"#{key}"%" and t_state=1 limit #{page},#{pageSize}
+    </select>
+    <select id="findbyid" resultType="com.web.blog.entity.Teacher">
+        select * from teacher where id=#{id} and t_state=1
+    </select>
+    <update id="updatepwd" >
+        update teacher set password=#{pwd} where id=#{id}
+    </update>
+    <update id="delete" >
+        update teacher set t_state=0 where id=#{id}
+    </update>
+    <insert id="createtea">
+        insert into teacher (id,name,password,cellphone) values (#{id},#{name},#{password},#{cellphone});
+    </insert>
+    <select id="getTeacherSum" resultType="java.lang.Integer">
+       select count (*) from teacher where concat(name,cellphone,id) like "%"#{key}"%" and t_state=1
+    </select>
+    <select id="getTeacherCount" resultType="java.lang.Integer">
+              select count(DISTINCT teacher.id) from teacher,skill_map
+        where (skill_map.name like "%"#{skill}"%" and teacher.id=skill_map.teacherid)  or teacher.name like "%"#{skill}"%"
+        order by teacher.id
+    </select>
+    <select id="getTeacher" resultType="com.web.blog.entity.Teacher">
+      select distinct teacher.id,teacher.name from teacher,skill_map
+        where (skill_map.name like "%"#{skill}"%" and teacher.id=skill_map.teacherid)  or teacher.name like "%"#{skill}"%"
+        order by teacher.id
+        limit #{page},#{pageSize}
+    </select>
+    <select id="getSkill" resultType="com.web.blog.entity.Skill_map">
+        select * from skill_map
+        where teacherid in
+        <foreach collection="list" item="teachers" open="(" separator="," close=")">
+            #{teachers.id}
+        </foreach>
+    </select>
+    <select id="getMyTeacher" resultType="com.web.blog.entity.Teacher">
+      select distinct teacher.id,teacher.name,teacher.cellphone
+      from teacher,student
+      where teacher.id=student.teacher_id and student.id=#{student_id}
+    </select>
+</mapper>

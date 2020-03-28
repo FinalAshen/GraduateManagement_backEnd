@@ -1,18 +1,28 @@
 package com.web.blog.service.imple;
 
+<<<<<<< HEAD
 import com.github.pagehelper.PageHelper;
 import com.web.blog.dao.StudentDao;
 import com.web.blog.entity.Student;
 import com.web.blog.service.StudentService;
+=======
+import com.web.blog.dao.StudentDao;
+import com.web.blog.entity.Student;
+import com.web.blog.service.StudentService;
+import org.json.JSONArray;
+>>>>>>> newItem
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 import com.alibaba.fastjson.JSON;
+<<<<<<< HEAD
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageRowBounds;
+=======
+>>>>>>> newItem
 import com.web.blog.dao.*;
 import com.web.blog.entity.*;
 import com.web.blog.service.StudentService;
@@ -225,12 +235,19 @@ public class StudentServiceImple implements StudentService {
         if(!checkIdentity(session)) return Feedback.info("权限不足", Feedback.STATUS_ACCESS_FORBID);
         int count=taskDao.if_Elect_Task(id);
         int acount=applicationDao.if_exsist(id);
+<<<<<<< HEAD
         System.out.println(count);
+=======
+>>>>>>> newItem
         if (count>0||acount>0){
             return Feedback.info("已经有课题了或已经申请了", Feedback.STATUS_ERROR);
         }
         else {
+<<<<<<< HEAD
             if(applicationDao.applyApplication(1,teacherid)>0){
+=======
+            if(applicationDao.applyApplication(id,teacherid)>0){
+>>>>>>> newItem
                 return Feedback.info("申请成功", Feedback.STATUS_SUCCESS);
             }
         }
@@ -273,9 +290,16 @@ public class StudentServiceImple implements StudentService {
         if(id==0) return Feedback.info("未登陆", Feedback.STATUS_UNKNOWN_ERROR);
         if(!checkIdentity(session)) return Feedback.info("权限不足", Feedback.STATUS_ACCESS_FORBID);
         List<Task> tasks=taskDao.getMyTask(id);
+<<<<<<< HEAD
 
         JSONObject jsonObject=new JSONObject();
         jsonObject.put("getMyTask",JSON.toJSON(tasks));
+=======
+        JSONObject jsonObject=new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        tasks.forEach(res -> jsonArray.put(JSON.toJSON(res)));
+        jsonObject.put("getMyTask", jsonArray);
+>>>>>>> newItem
         return Feedback.jsonObject(jsonObject, Feedback.STATUS_SUCCESS);
     }
     @Override

@@ -32,8 +32,15 @@ public class UserController {
     @RequestMapping(value = "/login")
     @ResponseBody
     public String login(HttpSession session, String account, String password) {
+<<<<<<< HEAD
         System.out.println("s");
         return userService.login(session, account, password).toString();
+=======
+        System.out.println("hello");
+        String str = userService.login(session, account, password).toString();
+        System.out.println(str);
+        return str;
+>>>>>>> newItem
     }
 
     @RequestMapping(value = "/logout")
